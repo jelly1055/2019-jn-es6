@@ -1,0 +1,203 @@
+<script>
+
+const log = console.log;
+var a = 10;
+var a = 20;
+
+let b = 10;
+const c = ["A","B","C"];
+c.push("d");
+console.log(c);
+
+for(let i=1; i<10; i++) {
+  console.log(i);
+}
+
+var fn = function(x,y){
+    return x + y;
+    //es5는 이것만 인식함.
+}
+
+//function을 따로 선언하지 않고 = 로 function임을 표시한다.
+const fn2 = (x,y) => { 
+    return x + y;
+}
+
+//아래와 같은 방식으로도 처리가 가능하다.
+const fn3 = (x,y) => (x + y);
+log(fn3(2,10));
+
+//기존 ES5
+function sum(v1, v2){
+    v2 = v2 || 100; //과거에는 이케 씀. 변수를 가변적으로 받고 싶을 때..
+    return v1 + v2;
+}
+log(sum(10, 20));
+log(sum(10));
+
+//ES6 이제부터는 아래과 같이 사용할 수 있음.
+function sum2(v1=100, v2=200){
+    return v1 + v2;
+}
+log(sum2(10, 20));
+log(sum2(10));
+
+//스프레드 파라미터. 
+function sum3(...v){
+    log(v);
+}
+log(sum3(1,2,3,4,5,()=>{},6,7)); //(8) [1,2,3,4,5,f,6,7] 이렇게 출력됨..
+
+//스프레드 파라미터. 아래와 같이 사용할 수도 있음.
+function sum4(...v){
+    var sum = 0;
+    for(var i=0; i<v.length; i++){
+        sum +- v[i];
+    }
+    return sum;
+}
+log(sum4(1,2,3,4,5,6,7,8,9,10)); //모두 더한 값이 출력됨.
+
+//아래와 같이 사용할 수 도 있음.
+var pre = [1,2,3];
+var newPre = [1,2,3,4,...pre,7,8,9]; //왜 스프레드? 펼쳐줌.. 한마디로. 1,2,3,4,1,2,3,7,8,9라고 볼 수 있음.
+log(newPre); //배열중간에 배열을 넣고 싶을 때 ...pre 이런식으로 사용할 수 있다.
+
+//String
+var str = "2019-02-11 12:33:34";
+log(str.substr(2,8));
+
+var str = "Hello World";
+var chkStr = "He";
+log(str.startsWith(chkStr)); //첫부분에 있느냐. true/false
+log(str.endsWith(chkStr)); //끝부분에 있느냐. true/false
+log(str.includes(chkStr)); //포함이 되어 있느냐. true/false
+
+//es5 객체
+var Human = (function(){
+    function Human(name, age){
+        this.name = name;
+        this.age = age;
+    }
+    Human.prototype.getName = function(){
+        retun.this.name;
+    }
+    Human.prototype.setName = function(name){
+        this.name = name;
+    }
+    return Human;
+}());
+var hong = new Human("홍길동",25);
+hong.setName("홍길순");
+log(hong.getName());
+
+//ES6
+class Human2{
+    constructor(name,age){
+        this.name = name;
+        this.age = age;
+    }
+    getName(){
+        return this.name;
+    }
+    setName(){
+        this.name = name;
+    }
+    showInfo(){
+        console.log('${this.name}의 나이는 ${this.age}세 입니다.')
+    }
+}
+
+var hong2 = new Human2("홍길도",30);
+hong2.showInfo();
+
+var name = "홀길동";
+var age = 25;
+//ES5..
+//var obj = {
+    //name: "홍길동",
+//    name: name,    
+    //age:25,
+//    age: age,
+    //getName: function(){}
+//};
+//ES6에서는.. 아래와 같이 간단하게 선언하여 사용할 수 있다.
+var obj = {
+    name, //name: name
+    age //age: age
+};
+
+var json = {
+    datas :[
+        {
+            "name": "홍길동",
+            "age": 25,
+        },
+        {
+            "name": "홍길순",
+            "age": 30,
+        },
+        {
+            "name": "홍길만",
+            "age": 31,
+        }
+    ]
+};
+var [aa,bb,cc] = json.datas; //변수선언을 배열로.. 3번째 name을 찍는다는 의미.
+log(aa.name); //첫번째 값을 출력.
+
+//js는 배열만 있음. ES6이후부터는 Set객체가 생김.
+var set = new Set();
+log(set); //Set(0){} size: (...) array list로 출력. length가 아닌 size로 나옴.
+//set은 중복을 허용하지 않음..
+set.add('A');
+set.add('B');
+set.add('C');
+set.add(()=>{}); //이런식으로도 쓸수 있음.
+set.add('A');
+set.add('B');
+log(set, set.size); //Set(3){"A","B","C"} 중복된 값은 출력하지 않음. 중복제거에 좋음.
+
+//WeakSet
+var set2 = new WeakSet();
+ser2.add(()=>{});
+set2.add({});
+log(set2);
+
+//Map
+var map = new Map();
+map.set(0, "영");
+map.set('A', "String A");
+map.set(()=>{}, "String B");
+map.set(()=>{}, "String A");
+//js에서도 keyvalue 객체를 쓸 수 있음.
+
+var arr = ['A','B','C'];
+var arrN = [1,2,3];
+//console.clear();
+//ES5에서는 사용됨. in을 사용하지 않는 것을 일반적으로 추천함.
+Array.prototype.fn = function(){}; //Array 고유 객체에 prototype 객체를 붙힘. 이럴경우 의도하지 않은 결과를 보게됨.
+Array.prototype.fn2 = function(){}; //arr이라는 배열 객체 안에 들어가 버려서 for in문을 사용할 수 없게 됨.
+//배열에 최소 최대 찾는게 없으므로 getMin이라던지 getMax를 찾는 methods를 자주 사용하지만 이와같이 2개를 붙혀서 쓰면 for in 문 사용이 안됨.
+for (var i in arr){
+    log(i, arr[i]); //0 A, 1 B, 2 C 이런식으로 출력됨.
+}
+
+//of는 index가 아닌 값이 나오게 만들 이유는 map에 사용하도록 하기 위해서임..
+for(var [k, v] of map){ //key와 value의 형태 list객체를 쓸 수 있음.
+    log(k, v);
+}
+
+arr.forEach(); //js에는 이게 있음.
+$arr.each(function(){}); //jquery에는 이게 있음.
+arr.forEach(function(k,v){ //위의 구문은 js에서는 이렇게 사용.
+    log(k, v);
+});
+
+var k = map.get('A'); //A라는 값을 map에선 이런게 가지고 옴.
+log(k);
+log(map.keys()); //모든 key를 가지고 올 수 있음.
+log(map.values()); //값만 가지고 올 수 있음.
+log(map.has('A')); //map에서 A라는 key가 존재하느냐를 찾을 수 있음.
+
+</script>

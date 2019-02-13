@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Template Literal</title>
+</head>
+<body>
+    <div id="prds">
+        <script>
+            const prds = [
+                {
+                    cate: "여성의류",
+                    items : ["원피스","투피스","구두"]
+                },
+                {
+                    cate: "남성의류",
+                    items : ["정장","티셔츠","와이셔츠"]
+                },
+                {
+                    cate: "운동복",
+                    items : ["야구복","축구복","농구복"]
+                },{
+                    cate: "유니폼"
+                }
+            ];
+
+            //prds 에서 반복을 돌렬때 foreach사용.
+            // `는 ~과 같이있는 키에 존재함..
+            prds.forEach(function(v){
+                let temp = chkItem`<ul>
+                    <li>${v.cate}</li>
+                    <li>${v.items}</li>
+                    </ul>`;
+                    document.querySelector("$prds").innerHTML += temp;
+            });
+
+            function chkItem(tags, cate, items){
+                //console.log(tags, cate, items);
+                //typeof 는 변수의 타입을 문자열로 찍어줌.
+                if(typeof items === 'undefined'){
+                    //console.log(cate); //유니폼이 비었다고 찍힘.
+                    //console.log(tags[0]+cate+tags[1] +'<span>상품이 없습니다.</span>'+tags[2]);
+                    return tags[0]+cate+tags[1]+`<span>상품이 없습니다.</span>`+tags[2];                    
+                }
+                return tags[0]+cate+tags[1]+items+tags[2];
+            }
+        </script>
+    </div>
+</body>
+</html>
